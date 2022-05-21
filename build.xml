@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="Cloud">
+	<property environment="env" />
+	<property name="ECLIPSE_HOME" value="D:/Eclipse/eclipse/" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.8" />
+	<property name="source" value="1.8" />
+	<path id="Maven Dependencies.libraryclasspath">
+		<pathelement location="C:/Users/19133/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/jstl/jstl/1.2/jstl-1.2.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/javax/servlet/jsp/javax.servlet.jsp-api/2.3.1/javax.servlet.jsp-api-2.3.1.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/com/microsoft/sqlserver/mssql-jdbc/9.4.0.jre8/mssql-jdbc-9.4.0.jre8.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/com/jcraft/jsch/0.1.55/jsch-0.1.55.jar" />
+		<pathelement location="C:/Users/19133/.m2/repository/opensymphony/sitemesh/2.4.2/sitemesh-2.4.2.jar" />
+	</path>
+	<path id="Cloud.classpath">
+		<pathelement location="target/classes" />
+		<pathelement location="target/test-classes" />
+		<path refid="Maven Dependencies.libraryclasspath" />
+	</path>
+	<path id="run.DBconnect.classpath">
+		<path refid="Cloud.classpath" />
+		<path refid="Maven Dependencies.libraryclasspath" />
+	</path>
+	<target name="init">
+		<mkdir dir="target/classes" />
+		<mkdir dir="target/test-classes" />
+		<copy includeemptydirs="false" todir="target/classes">
+			<fileset dir="src/main/java">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="target/classes">
+			<fileset dir="src/main/resources">
+				<exclude name="**/*.java" />
+				<exclude name="**" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="target/test-classes">
+			<fileset dir="src/test/java">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+		<copy includeemptydirs="false" todir="target/test-classes">
+			<fileset dir="src/test/resources">
+				<exclude name="**/*.java" />
+				<exclude name="**" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="target/classes" />
+		<delete dir="target/test-classes" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-subprojects,build-project" name="build" />
+	<target name="build-subprojects" />
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="target/classes" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src/main/java" />
+			<src path="src/main/resources" />
+			<exclude name="**" />
+			<classpath refid="Cloud.classpath" />
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="target/test-classes" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src/test/java" />
+			<src path="src/test/resources" />
+			<exclude name="**" />
+			<classpath refid="Cloud.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+		<copy todir="${ant.library.dir}">
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</copy>
+		<unzip dest="${ant.library.dir}">
+			<patternset includes="jdtCompilerAdapter.jar" />
+			<fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar" />
+		</unzip>
+	</target>
+	<target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		<antcall target="build" />
+	</target>
+	<target name="DBconnect">
+		<java classname="vn.cloud.connection.DBconnect" failonerror="true" fork="yes">
+			<classpath refid="run.DBconnect.classpath" />
+		</java>
+	</target>
+	<target name="war" description="Bundles the application as a WAR file" depends="clean, build">
+		<mkdir dir="WebContent/WEB-INF/classes" />
+
+		<copy includeemptydirs="false" todir="WebContent/WEB-INF/classes">
+			<fileset dir="build/classes">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
+
+		<war destfile="build/JavaWeb.war" basedir="WebContent" needxmlfile="false">
+		</war>
+	</target>
+</project>
