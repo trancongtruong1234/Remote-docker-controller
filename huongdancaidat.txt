@@ -1,8 +1,8 @@
 Nhóm 2 đề tài sử dụng docker để ảo hóa server Ubuntu
 Thành viên
-Trần Văn Duy - 19133062
+Trần Văn Duy - 19133016
 Trần Công Trường - 19133062
-Cao Anh Văn - 19133062
+Cao Anh Văn - 19133067
 
 Nhóm em xây dựng website java trên IDE eclipse
 Cần 3 ec2 để chạy website
