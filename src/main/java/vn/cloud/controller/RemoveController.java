@@ -37,47 +37,54 @@ public class RemoveController extends HttpServlet {
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		String ec2ip = "";
 		String server = req.getParameter("server");
+		
+		//lấy list server 
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+		
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
 
-		// Van code them
-		int _id_server = Integer.parseInt(server);
+//		// Van code them
+//		int _id_server = Integer.parseInt(server);
+//
+//		String sql = "select * from servers;";
+//		ResultSet rst;
+//		ArrayList<ServerModel> listserver = new ArrayList<>();
+//		try {
+//			// kết nối sql
+//			Connection conn = new DBconnect().getConnection();
+//			PreparedStatement ps = conn.prepareStatement(sql);
+//			rst = ps.executeQuery();
+//
+//			while (rst.next()) {
+//				ServerModel server_ = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
+//				listserver.add(server_);
+//			}
+////				    for (int i = 0; i < listserver.size(); i++) {
+//			//
+////				        System.out.println(listserver.get(i));
+////				        System.out.println(listserver.get(i));
+////				    }
+//		} catch (Exception e) {
+//
+//		}
+//		// req.setAttribute("listserver", listserver);
+//
+//		// session.setAttribute("listserver", listserver);
 
-		String sql = "select * from servers;";
-		ResultSet rst;
-		ArrayList<ServerModel> listserver = new ArrayList<>();
-		try {
-			// kết nối sql
-			Connection conn = new DBconnect().getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			rst = ps.executeQuery();
-
-			while (rst.next()) {
-				ServerModel server_ = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
-				listserver.add(server_);
-			}
-//				    for (int i = 0; i < listserver.size(); i++) {
-			//
-//				        System.out.println(listserver.get(i));
-//				        System.out.println(listserver.get(i));
-//				    }
-		} catch (Exception e) {
-
-		}
-		// req.setAttribute("listserver", listserver);
-
-		// session.setAttribute("listserver", listserver);
-
-		for (ServerModel _server : listserver) {
-			int id_server = _server.getId_server();
-			// String _id_server =_String.valueOf(id_server);
-			if (id_server == _id_server) {
-				String ip_server = _server.getIp_server();
-				ec2ip = ip_server;
-				System.out.print(id_server);
-				System.out.print(_id_server);
-				System.out.print(ec2ip);
-				break;
-			}
-		}
+//		for (ServerModel _server : listserver) {
+//			int id_server = _server.getId_server();
+//			// String _id_server =_String.valueOf(id_server);
+//			if (id_server == _id_server) {
+//				String ip_server = _server.getIp_server();
+//				ec2ip = ip_server;
+//				System.out.print(id_server);
+//				System.out.print(_id_server);
+//				System.out.print(ec2ip);
+//				break;
+//			}
+//		}
 
 //		if(server.equals("1"))
 //		{

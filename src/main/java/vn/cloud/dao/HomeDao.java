@@ -23,6 +23,7 @@ import vn.cloud.config.Config;
 import vn.cloud.connection.DBconnect;
 import vn.cloud.model.DetailModel;
 import vn.cloud.model.ImageModel;
+import vn.cloud.model.ServerModel;
 
 public class HomeDao {
 	Connection conn = null;
@@ -399,4 +400,66 @@ public class HomeDao {
 		}
 		return arr;
 	}
+	public List<ServerModel> getListServer() throws JSchException, IOException
+	{
+		String sql = "select * from servers;";
+		ResultSet rst;
+		ArrayList<ServerModel> listserver = new ArrayList<>();
+		try {
+			// kết nối sql
+			Connection conn = new DBconnect().getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			rst = ps.executeQuery();
+
+			while (rst.next()) {
+				ServerModel server = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
+				listserver.add(server);
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+		}
+
+		return listserver;
+	}
+	public String getIp(int id)
+	{
+		String result = "";
+		String sql = "select ip_server from servers where id_server = "+id+";";
+		try {
+			conn = new DBconnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				result = rs.getString(1);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return result;
+	}
+	public static void main(String[] args) {
+		HomeDao hDao = new HomeDao();
+		//System.out.println(hDao.getIp(5));
+		try {
+			ArrayList<ImageModel>  aImageModel = (ArrayList<ImageModel>) hDao.listImage("user3", "34.228.89.203");
+			for(ImageModel imageModel : aImageModel ) {
+			 System.out.println("image tim duoc la: "+ imageModel.getRepository());	
+			}
+		} catch (JSchException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// 
+		try {
+			ArrayList<DetailModel>  aImageModel = (ArrayList<DetailModel>) hDao.getDetail("user3", "34.228.89.203");
+			for(DetailModel imageModel : aImageModel ) {
+			 System.out.println("container tim duoc la: "+ imageModel.getName());	
+			}
+		} catch (JSchException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 }

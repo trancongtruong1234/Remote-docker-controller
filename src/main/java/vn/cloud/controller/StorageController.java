@@ -1,5 +1,6 @@
 package vn.cloud.controller;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -16,6 +17,7 @@ import vn.cloud.config.CheckTime;
 import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
+import vn.cloud.model.ServerModel;
 
 @WebServlet(urlPatterns = { "/storage" })
 public class StorageController extends HttpServlet {
@@ -26,30 +28,25 @@ public class StorageController extends HttpServlet {
 		resp.setContentType("text/htm");
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
+		HomeDao hd = new HomeDao();
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		System.out.println(info.getRole());
 		String ec2ip ="";
 		String server = req.getParameter("server");
-		if(server.equals("1"))
-		{
-			ec2ip = Config.ipServer1;
-		}
-		if(server.equals("2"))
-		{
-			ec2ip = Config.ipServer2;
-		}
-		if(server.equals("3"))
-		{
-			ec2ip = Config.ipServer3;
-		}
+		//lấy list server 
+		@SuppressWarnings("unchecked")
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+		
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
 		if (info.getRole() == 0) {
 			req.setAttribute("server", server);
 			req.setAttribute("id", info.getId());
 			String name = "user" + Integer.toString(info.getId()) + "-";
 			CheckTime check = new CheckTime();
 			check.checkTimeContainner(name, ec2ip);
-			HomeDao hd = new HomeDao();
 			List<String> listS;
 			try {
 				listS = hd.storage(ec2ip, info.getId());
@@ -59,6 +56,7 @@ public class StorageController extends HttpServlet {
 				e.printStackTrace();
 			}
 			resp.setHeader("Refresh", "60");
+			req.setAttribute("listserver", listserver);
 			RequestDispatcher rq = req.getRequestDispatcher("/views/Storage.jsp");
 			rq.forward(req, resp);
 		} else {

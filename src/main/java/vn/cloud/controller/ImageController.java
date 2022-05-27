@@ -1,6 +1,7 @@
 package vn.cloud.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -18,6 +19,7 @@ import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.ImageModel;
 import vn.cloud.model.LoginModel;
+import vn.cloud.model.ServerModel;
 
 @WebServlet(urlPatterns = { "/image" })
 public class ImageController extends HttpServlet {
@@ -28,35 +30,66 @@ public class ImageController extends HttpServlet {
 		resp.setContentType("text/htm");
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
+		HomeDao hd = new HomeDao();
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
+		
 		if (info.getRole() == 0) {
 			String name = "user" + Integer.toString(info.getId()) + "-";
-			HomeDao p = new HomeDao();
 			String ec2ip ="";
 			String server = req.getParameter("server");
-			if(server.equals("1"))
-			{
-				ec2ip = Config.ipServer1;
-			}
-			if(server.equals("2"))
-			{
-				ec2ip = Config.ipServer2;
-			}
-			if(server.equals("3"))
-			{
-				ec2ip = Config.ipServer3;
-			}
+			
+			//lấy list server 
+			ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+			
+			// lấy ip theo id
+			int _id_server=Integer.parseInt(server);	
+			ec2ip = hd.getIp(_id_server);
+			
+//			ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
+//			try {
+//				HomeDao homeDao = new HomeDao();
+//				listserver = (ArrayList<ServerModel>) homeDao.getListServer();
+//			}
+//			catch (Exception e) {
+//				System.out.println(e);
+//			}
+//			
+//			int _id_server=Integer.parseInt(server);	
+//			
+//			for (ServerModel _server  : listserver) {
+//				  int id_server=_server.getId_server();
+//				  //String _id_server =_String.valueOf(id_server);
+//			      if(id_server==_id_server) {
+//			    	  String ip_server=_server.getIp_server();
+//			    	  ec2ip=ip_server;
+//			    	  System.out.println(id_server);
+//			    	  System.out.println(_id_server);
+//			    	  System.out.println(ec2ip);
+//			    	  break;
+//			      }
+//			    }
 			CheckTime check = new CheckTime();
 			check.checkTimeContainner(name, ec2ip);
 			List<ImageModel> list;
 			try {
-				list = p.listImage(name,ec2ip);
+				//test
+				System.out.println("name: "+name+", ec2ip: "+ec2ip);
+				//--test
+				list = hd.listImage(name,ec2ip);
 				req.setAttribute("listI", list);
+				
+				//test
+				for(ImageModel imageModel : list ) {
+					 System.out.println("image tim duoc la: "+ imageModel.getRepository());	
+				}
+				//--test
+				
 			} catch (JSchException e) {
 				e.printStackTrace();
 			}
 			req.setAttribute("server",server);
+			req.setAttribute("listserver", listserver);
 			resp.setHeader("Refresh", "60");
 			RequestDispatcher rq = req.getRequestDispatcher("/views/image.jsp");
 			rq.forward(req, resp);

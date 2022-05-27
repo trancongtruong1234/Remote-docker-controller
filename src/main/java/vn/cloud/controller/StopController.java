@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,58 +37,37 @@ public class StopController extends HttpServlet {
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		String ec2ip = "";
 		String server = req.getParameter("server");
-		// Van code them
-		int _id_server = Integer.parseInt(server);
-
-		String sql = "select * from servers;";
-		ResultSet rst;
-		ArrayList<ServerModel> listserver = new ArrayList<>();
-		try {
-			// kết nối sql
-			Connection conn = new DBconnect().getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			rst = ps.executeQuery();
-
-			while (rst.next()) {
-				ServerModel server_ = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
-				listserver.add(server_);
-			}
-//				    for (int i = 0; i < listserver.size(); i++) {
-			//
-//				        System.out.println(listserver.get(i));
-//				        System.out.println(listserver.get(i));
-//				    }
-		} catch (Exception e) {
-
-		}
-		// req.setAttribute("listserver", listserver);
-
-		// session.setAttribute("listserver", listserver);
-
-		for (ServerModel _server : listserver) {
-			int id_server = _server.getId_server();
-			// String _id_server =_String.valueOf(id_server);
-			if (id_server == _id_server) {
-				String ip_server = _server.getIp_server();
-				ec2ip = ip_server;
-				System.out.print(id_server);
-				System.out.print(_id_server);
-				System.out.print(ec2ip);
-				break;
-			}
-		}
-//		if(server.equals("1"))
-//		{
-//			ec2ip = Config.ipServer1;
+		
+		//lấy list server 
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+		
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
+		
+//		// Van code them
+//		ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
+//		try {
+//			HomeDao homeDao = new HomeDao();
+//			listserver = (ArrayList<ServerModel>) homeDao.getListServer();
 //		}
-//		if(server.equals("2"))
-//		{
-//			ec2ip = Config.ipServer2;
+//		catch (Exception e) {
+//			System.out.println(e);
 //		}
-//		if(server.equals("3"))
-//		{
-//			ec2ip = Config.ipServer3;
-//		}
+//		
+//		int _id_server=Integer.parseInt(server);		
+//		for (ServerModel _server  : listserver) {
+//			  int id_server=_server.getId_server();
+//			  //String _id_server =_String.valueOf(id_server);
+//		      if(id_server==_id_server) {
+//		    	  String ip_server=_server.getIp_server();
+//		    	  ec2ip=ip_server;
+//		    	  System.out.println(id_server);
+//		    	  System.out.println(_id_server);
+//		    	  System.out.println(ec2ip);
+//		    	  break;
+//		      }
+//		    }
 		try {
 			hd.stopContainer(cid, ec2ip);
 		} catch (JSchException e) {

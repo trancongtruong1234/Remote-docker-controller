@@ -76,7 +76,7 @@
 						class="fa fa-table" aria-hidden="true"></i> <span
 						class="hide-menu">Quản lý Container các Server</span>
 				</a></li>
-				<li class="sidebar-item">
+			<!--  	<li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/admincontainer?server=1"/>"
                                 aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>
@@ -96,7 +96,24 @@
                                 <i class="far fa-clock" aria-hidden="true"></i>
                                 <span class="hide-menu">Container Server 3</span>
                             </a>
-                        </li>
+                        </li> -->
+                <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+				<li class="sidebar-item">
+				<select
+				style="width: 100%;border:0px;outline:0px;" 				
+				class="sidebar-link waves-effect waves-dark sidebar-link"
+					name="server" onchange="location = this.value;">
+					    <option value=""> 
+					    	->	Container server ${server}
+					    </option>
+						<c:forEach items="${listserver}" var="server">
+							<option
+								value="<c:url value ="/admincontainer?server=${server.id_server}"/>">
+								${server.ip_server}( server ${server.id_server} )
+								</option>
+						</c:forEach>
+				</select>
+				</li>
 				  <li class="sidebar-item pt-2">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/history"/>" aria-expanded="false">
                                 <i class="far fa-clock" aria-hidden="true"></i>

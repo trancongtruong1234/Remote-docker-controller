@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <header class="topbar" data-navbarbg="skin5">
+<script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 	<nav class="navbar top-navbar navbar-expand-md navbar-dark">
 		<div class="navbar-header" data-logobg="skin6">
 			<!-- ============================================================== -->
@@ -62,31 +63,44 @@
 				<!-- User Profile-->
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-			 aria-expanded="false"> <i
-						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Container của bạn
-							</span>
+					aria-expanded="false"> <i class="fa fa-user" aria-hidden="true"></i>
+						<span class="hide-menu">Container của bạn </span>
 				</a></li>
-				   <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=1"/>"
-                                aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Container Server 1</span>
-                            </a>
-                        </li>
-                          <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=2"/>"
-                                aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Container Server 2</span>
-                            </a>
-                        </li>
-                          <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value ="/home?server=3"/>"
-                                aria-expanded="false">
-                                <i class="far fa-clock" aria-hidden="true"></i>
-                                <span class="hide-menu">Container Server 3</span>
-                            </a>
-                        </li>
+				<%-- <li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value ="/home?server=1"/>" aria-expanded="false">
+						<i class="far fa-clock" aria-hidden="true"></i> <span
+						class="hide-menu">Container Server 1</span>
+				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value ="/home?server=2"/>" aria-expanded="false">
+						<i class="far fa-clock" aria-hidden="true"></i> <span
+						class="hide-menu">Container Server 2</span>
+				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value ="/home?server=3"/>" aria-expanded="false">
+						<i class="far fa-clock" aria-hidden="true"></i> <span
+						class="hide-menu">Container Server 3</span>
+				</a></li> --%>
+				<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+				<li class="sidebar-item">
+				<select
+				style="width: 100%;border:0px;outline:0px;" 				
+				class="sidebar-link waves-effect waves-dark sidebar-link"
+					name="server" onchange="location = this.value;">
+					    <option value=""> 
+					    	->	Container server ${server}
+					    </option>
+						<c:forEach items="${listserver}" var="server">
+							<option
+								value="<c:url value ="/home?server=${server.id_server}"/>">
+								${server.ip_server}( server ${server.id_server} )
+								</option>
+						</c:forEach>
+				</select>
+				</li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
 					href="<c:url value = "/create"/>" aria-expanded="false"> <i
@@ -95,52 +109,82 @@
 				</a></li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-			 aria-expanded="false"> <i
-						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Image của bạn
-							</span>
+					aria-expanded="false"> <i class="fa fa-user" aria-hidden="true"></i>
+						<span class="hide-menu">Image của bạn </span>
 				</a></li>
-				<li class="sidebar-item"><a
+								<li class="sidebar-item">
+				<select
+				style="width: 100%;border:0px;outline:0px;" 				
+				class="sidebar-link waves-effect waves-dark sidebar-link"
+					name="server" onchange="location = this.value;">
+					    <option value=""> 
+					    	->	Image server ${server}
+					    </option>
+						<c:forEach items="${listserver}" var="server">
+							<option
+								value="<c:url value ="/image?server=${server.id_server}"/>">
+								${server.ip_server}( server ${server.id_server} )
+								</option>
+						</c:forEach>
+				</select>
+				</li>
+			<!--  	<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value = "/image?server=1"/>" aria-expanded="false"> <i
-						class="fa fa-info-circle" aria-hidden="true"></i> <span
+					href="<c:url value = "/image?server=1"/>" aria-expanded="false">
+						<i class="fa fa-info-circle" aria-hidden="true"></i> <span
 						class="hide-menu">Image Server 1</span>
 				</a></li>
-					<li class="sidebar-item"><a
+				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value = "/image?server=2"/>" aria-expanded="false"> <i
-						class="fa fa-info-circle" aria-hidden="true"></i> <span
+					href="<c:url value = "/image?server=2"/>" aria-expanded="false">
+						<i class="fa fa-info-circle" aria-hidden="true"></i> <span
 						class="hide-menu">Image Server 2</span>
-				</a></li>
-					<li class="sidebar-item"><a
-					class="sidebar-link waves-effect waves-dark sidebar-link"
-					href="<c:url value = "/image?server=3"/>" aria-expanded="false"> <i
-						class="fa fa-info-circle" aria-hidden="true"></i> <span
-						class="hide-menu">Image Server 3</span>
 				</a></li>
 				<li class="sidebar-item"><a
 					class="sidebar-link waves-effect waves-dark sidebar-link"
-			 aria-expanded="false"> <i
-						class="fa fa-user" aria-hidden="true"></i> <span class="hide-menu">Thư mục lưu trữu của bạn
-							</span>
+					href="<c:url value = "/image?server=3"/>" aria-expanded="false">
+						<i class="fa fa-info-circle" aria-hidden="true"></i> <span
+						class="hide-menu">Image Server 3</span>
+				</a></li> -->
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					aria-expanded="false"> <i class="fa fa-user" aria-hidden="true"></i>
+						<span class="hide-menu">Thư mục lưu trữu của bạn </span>
 				</a></li>
-				 <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=1"/>" aria-expanded="false">
-                                <i class="fa fa-columns" aria-hidden="true"></i>
-                                <span class="hide-menu">Storage Server 1</span>
-                            </a>
-                        </li>
-                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=2"/>" aria-expanded="false">
-                                <i class="fa fa-columns" aria-hidden="true"></i>
-                                <span class="hide-menu">Storage Server 2</span>
-                            </a>
-                        </li>
-                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="<c:url value = "/storage?server=3"/>" aria-expanded="false">
-                                <i class="fa fa-columns" aria-hidden="true"></i>
-                                <span class="hide-menu">Storage Server 3</span>
-                            </a>
-                        </li>
+			<!--  	<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/storage?server=1"/>" aria-expanded="false">
+						<i class="fa fa-columns" aria-hidden="true"></i> <span
+						class="hide-menu">Storage Server 1</span>
+				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/storage?server=2"/>" aria-expanded="false">
+						<i class="fa fa-columns" aria-hidden="true"></i> <span
+						class="hide-menu">Storage Server 2</span>
+				</a></li>
+				<li class="sidebar-item"><a
+					class="sidebar-link waves-effect waves-dark sidebar-link"
+					href="<c:url value = "/storage?server=3"/>" aria-expanded="false">
+						<i class="fa fa-columns" aria-hidden="true"></i> <span
+						class="hide-menu">Storage Server 3</span>
+				</a></li> -->
+				<li class="sidebar-item">
+				<select
+				style="width: 100%;border:0px;outline:0px;" 				
+				class="sidebar-link waves-effect waves-dark sidebar-link"
+					name="server" onchange="location = this.value;">
+					    <option value=""> 
+					    	->	Storage server ${server}
+					    </option>
+						<c:forEach items="${listserver}" var="server">
+							<option
+								value="<c:url value ="/storage?server=${server.id_server}"/>">
+								${server.ip_server}( server ${server.id_server} )
+								</option>
+						</c:forEach>
+				</select>
+				</li>
 			</ul>
 
 		</nav>

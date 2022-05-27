@@ -10,12 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.jcraft.jsch.JSchException;
 
 import vn.cloud.config.Config;
 import vn.cloud.dao.HomeDao;
 import vn.cloud.model.DetailModel;
+import vn.cloud.model.ServerModel;
 
 @WebServlet(urlPatterns = {"/admincontainer"})
 public class AdminContainerController extends HttpServlet {
@@ -27,21 +29,19 @@ public class AdminContainerController extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
 		HomeDao hd = new HomeDao();
+		HttpSession session = req.getSession();
 		List<DetailModel> list = new ArrayList<DetailModel>();
 		String ec2ip ="";
 		String server = req.getParameter("server");
-		if(server.equals("1"))
-		{
-			ec2ip = Config.ipServer1;
-		}
-		if(server.equals("2"))
-		{
-			ec2ip = Config.ipServer2;
-		}
-		if(server.equals("3"))
-		{
-			ec2ip = Config.ipServer3;
-		}
+		
+		//lấy list server 
+		@SuppressWarnings("unchecked")
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+		
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
+		
 		try {
 			list = hd.getAllContainer(ec2ip);
 		} catch (JSchException e) {
@@ -50,6 +50,7 @@ public class AdminContainerController extends HttpServlet {
 		}
 		req.setAttribute("listC", list);
 		req.setAttribute("server", server);
+		req.setAttribute("listserver", listserver);
 		RequestDispatcher rq = req.getRequestDispatcher("/views/admincontainer.jsp");
 		rq.forward(req, resp);
 	}

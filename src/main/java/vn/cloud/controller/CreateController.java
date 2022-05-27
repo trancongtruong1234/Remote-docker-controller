@@ -34,34 +34,13 @@ public class CreateController extends HttpServlet {
 		HttpSession session = req.getSession();
 		LoginModel info = (LoginModel) session.getAttribute("info");
 		
-		// Lấy thông tin các server và lưu vào list server
-		String sql = "select * from servers;";
-		ResultSet rst;
-		ArrayList<ServerModel> listserver = new ArrayList<>();
-		try {
-			// kết nối sql
-			Connection conn = new DBconnect().getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			rst = ps.executeQuery();
-			
-		    while (rst.next()) {
-		    	ServerModel server = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
-		    	listserver.add(server);
-		    }
-//		    for (int i = 0; i < listserver.size(); i++) {
-//
-//		        System.out.println(listserver.get(i));
-//		        System.out.println(listserver.get(i));
-//		    }
-		} catch (Exception e) {
-
-		}
-		req.setAttribute("listserver", listserver);
-		
-		session.setAttribute("listserver", listserver);
+		//lấy list server 
+		@SuppressWarnings("unchecked")
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
 		
 		if(info.getRole() == 0)
 		{
+			req.setAttribute("listserver", listserver);
 			RequestDispatcher rq = req.getRequestDispatcher("/views/create.jsp");
 			rq.forward(req, resp);
 		}
@@ -86,36 +65,16 @@ public class CreateController extends HttpServlet {
 		String cname = "user" +Integer.toString(info.getId()) +"-" + os + "-" + port;
 		String ec2ip ="";
 		String server = req.getParameter("server");
-		int _id_server=Integer.parseInt(server);
-		//System.out.print(server);
 		// Lấy thông tin của list server 
 		
-		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>)session.getAttribute("listserver");
-		for (ServerModel _server  : listserver) {
-			  int id_server=_server.getId_server();
-			  //String _id_server =_String.valueOf(id_server);
-		      if(id_server==_id_server) {
-		    	  String ip_server=_server.getIp_server();
-		    	  ec2ip=ip_server;
-		    	  System.out.print(id_server);
-		    	  System.out.print(_id_server);
-		    	  System.out.print(ec2ip);
-		    	  break;
-		      }
-		    }
-		//System.out.print(ec2ip);
-//		if(server.equals("1"))
-//		{
-//			ec2ip = Config.ipServer1;
-//		}
-//		if(server.equals("2"))
-//		{
-//			ec2ip = Config.ipServer2;
-//		}
-//		if(server.equals("3"))
-//		{
-//			ec2ip = Config.ipServer3;
-//		}
+		//lấy list server 
+		@SuppressWarnings("unchecked")
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
+		
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
+		
 		if(os.equals("Ubuntu"))
 		{
 			try {
@@ -133,6 +92,7 @@ public class CreateController extends HttpServlet {
 			}
 		}
 		hd.insertCreate(cname, info.getId(), ram, cpu, port);
+		req.setAttribute("listserver", listserver);
 		resp.sendRedirect("home?server="+ server);
 		//resp.sendRedirect("home?server=1");
 	}

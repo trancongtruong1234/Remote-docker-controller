@@ -1,6 +1,10 @@
 package vn.cloud.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
+import vn.cloud.connection.DBconnect;
+import vn.cloud.dao.HomeDao;
 import vn.cloud.dao.LoginDao;
 import vn.cloud.model.LoginModel;
+import vn.cloud.model.ServerModel;
 
 @WebServlet(urlPatterns = { "/login" })
 public class LoginController extends HttpServlet {
@@ -30,8 +36,8 @@ public class LoginController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session = req.getSession();
 		try {
-
 			resp.setContentType("text/htm");
 			resp.setCharacterEncoding("UTF-8");
 			req.setCharacterEncoding("UTF-8");
@@ -50,8 +56,20 @@ public class LoginController extends HttpServlet {
 				RequestDispatcher rq = req.getRequestDispatcher("/views/login.jsp");
 				rq.forward(req, resp);
 			} else {
-				HttpSession session = req.getSession();
+				ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
+				try {
+					HomeDao homeDao = new HomeDao();
+					listserver = (ArrayList<ServerModel>) homeDao.getListServer();
+				}
+				catch (Exception e) {
+					System.out.println(e);
+				}
+				
+				//test
+				session.setAttribute("listserver", listserver);
+				//--test
 				session.setAttribute("info", info);
+
 				if (info.getRole() == 0) {
 					resp.sendRedirect("home?server=1");
 				} else {
@@ -63,5 +81,4 @@ public class LoginController extends HttpServlet {
 
 		}
 	}
-	}
-
+}

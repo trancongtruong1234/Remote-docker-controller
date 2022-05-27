@@ -30,7 +30,8 @@ import vn.cloud.model.DetailModel;;
 public class HomeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{	
+		HomeDao hd = new HomeDao();
 		resp.setContentType("text/htm");
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
@@ -39,62 +40,17 @@ public class HomeController extends HttpServlet {
 		String ec2ip ="";
 		String server = req.getParameter("server");
 		
-		int _id_server=Integer.parseInt(server);
-		//System.out.print(server);
-		// Lấy thông tin của list server 
+		//lấy list server 
+		ArrayList<ServerModel> listserver = (ArrayList<ServerModel>) session.getAttribute("listserver");
 		
-		
-		String sql = "select * from servers;";
-		ResultSet rst;
-		ArrayList<ServerModel> listserver = new ArrayList<>();
-		try {
-			// kết nối sql
-			Connection conn = new DBconnect().getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			rst = ps.executeQuery();
-			
-		    while (rst.next()) {
-		    	ServerModel server_ = new ServerModel(rst.getInt("id_server"), rst.getString("ip_server"));
-		    	listserver.add(server_);
-		    }
-//		    for (int i = 0; i < listserver.size(); i++) {
-//
-//		        System.out.println(listserver.get(i));
-//		        System.out.println(listserver.get(i));
-//		    }
-		} catch (Exception e) {
-
+		// lấy ip theo id
+		int _id_server=Integer.parseInt(server);	
+		ec2ip = hd.getIp(_id_server);
+		for(ServerModel aModel: listserver) {
+			System.out.println("ip: " + aModel.getIp_server());
 		}
-		//req.setAttribute("listserver", listserver);
-		
-		//session.setAttribute("listserver", listserver);
-		
-		for (ServerModel _server  : listserver) {
-			  int id_server=_server.getId_server();
-			  //String _id_server =_String.valueOf(id_server);
-		      if(id_server==_id_server) {
-		    	  String ip_server=_server.getIp_server();
-		    	  ec2ip=ip_server;
-		    	  System.out.print(id_server);
-		    	  System.out.print(_id_server);
-		    	  System.out.print(ec2ip);
-		    	  break;
-		      }
-		    }
-		
-		
-//		if(server.equals("1"))
-//		{
-//			ec2ip = Config.ipServer1;
-//		}
-//		if(server.equals("2"))
-//		{
-//			ec2ip = Config.ipServer2;
-//		}
-//		if(server.equals("3"))
-//		{
-//			ec2ip = Config.ipServer3;
-//		}
+	
+		//show các container
 		if(info.getRole() == 0)
 		{
 			String name = "user" + Integer.toString(info.getId()) + "-";
@@ -105,12 +61,14 @@ public class HomeController extends HttpServlet {
 			  try {
 				newlist = p.getDetail(name, ec2ip);
 				req.setAttribute("listC", newlist);
+				
 			} catch (JSchException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			 
+			
 			req.setAttribute("server",server);
+			req.setAttribute("listserver", listserver);
 			resp.setHeader("Refresh", "60");
 			RequestDispatcher rq = req.getRequestDispatcher("/views/home.jsp");
 			rq.forward(req, resp);
