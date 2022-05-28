@@ -65,9 +65,7 @@ public class LoginController extends HttpServlet {
 					System.out.println(e);
 				}
 				
-				//test
 				session.setAttribute("listserver", listserver);
-				//--test
 				session.setAttribute("info", info);
 
 				if (info.getRole() == 0) {

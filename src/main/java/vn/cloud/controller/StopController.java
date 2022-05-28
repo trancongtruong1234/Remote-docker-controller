@@ -45,29 +45,6 @@ public class StopController extends HttpServlet {
 		int _id_server=Integer.parseInt(server);	
 		ec2ip = hd.getIp(_id_server);
 		
-//		// Van code them
-//		ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
-//		try {
-//			HomeDao homeDao = new HomeDao();
-//			listserver = (ArrayList<ServerModel>) homeDao.getListServer();
-//		}
-//		catch (Exception e) {
-//			System.out.println(e);
-//		}
-//		
-//		int _id_server=Integer.parseInt(server);		
-//		for (ServerModel _server  : listserver) {
-//			  int id_server=_server.getId_server();
-//			  //String _id_server =_String.valueOf(id_server);
-//		      if(id_server==_id_server) {
-//		    	  String ip_server=_server.getIp_server();
-//		    	  ec2ip=ip_server;
-//		    	  System.out.println(id_server);
-//		    	  System.out.println(_id_server);
-//		    	  System.out.println(ec2ip);
-//		    	  break;
-//		      }
-//		    }
 		try {
 			hd.stopContainer(cid, ec2ip);
 		} catch (JSchException e) {

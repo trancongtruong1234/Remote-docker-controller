@@ -437,29 +437,22 @@ public class HomeDao {
 		}
 		return result;
 	}
+	public void deleteServer(String id_server) {
+		String sql = "delete from servers where id_server = ?";
+		try {
+			// kết nối sql
+			conn = new DBconnect().getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id_server);
+			ps.executeUpdate();
+			System.out.println("delete successfull");
+		} catch (Exception e) {
+
+		}
+	}
 	public static void main(String[] args) {
 		HomeDao hDao = new HomeDao();
 		//System.out.println(hDao.getIp(5));
-		try {
-			ArrayList<ImageModel>  aImageModel = (ArrayList<ImageModel>) hDao.listImage("user3", "34.228.89.203");
-			for(ImageModel imageModel : aImageModel ) {
-			 System.out.println("image tim duoc la: "+ imageModel.getRepository());	
-			}
-		} catch (JSchException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		// 
-		try {
-			ArrayList<DetailModel>  aImageModel = (ArrayList<DetailModel>) hDao.getDetail("user3", "34.228.89.203");
-			for(DetailModel imageModel : aImageModel ) {
-			 System.out.println("container tim duoc la: "+ imageModel.getName());	
-			}
-		} catch (JSchException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 }

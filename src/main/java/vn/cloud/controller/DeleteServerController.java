@@ -18,8 +18,8 @@ import vn.cloud.dao.HomeDao;
 import vn.cloud.model.LoginModel;
 import vn.cloud.model.ServerModel;
 
-@WebServlet(urlPatterns = {"/addserver"})
-public class AddServerController extends HttpServlet {
+@WebServlet(urlPatterns = {"/deleteserver"})
+public class DeleteServerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,25 +34,28 @@ public class AddServerController extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		HomeDao hd = new HomeDao();
-
 		try {
-		String ip_server = req.getParameter("ip_server");
-		hd.insertServer(ip_server);
+		String id_server = req.getParameter("server");
+		System.out.println(id_server);
+		hd.deleteServer(id_server);
 		
 		ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
 		try {
-			listserver = (ArrayList<ServerModel>) hd.getListServer();
-		}
-		catch (Exception e) {
-			System.out.println(e);
-		}	
-		session.setAttribute("listserver", listserver);	
+			HomeDao homeDao = new HomeDao();
+			listserver = (ArrayList<ServerModel>) homeDao.getListServer();
 		}
 		catch (Exception e) {
 			System.out.println(e);
 		}
-		RequestDispatcher rq = req.getRequestDispatcher("/views/addserver.jsp");
+		
+		session.setAttribute("listserver", listserver);
+		
+		RequestDispatcher rq = req.getRequestDispatcher("/views/deleteserver.jsp");
 		rq.forward(req, resp);
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 }

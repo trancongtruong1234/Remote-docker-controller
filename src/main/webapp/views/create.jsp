@@ -43,8 +43,17 @@
 					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
 						<h4 class="page-title">Tạo Container</h4>
 					</div>
-					<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"></div>
+					<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+						<div class="d-md-flex">
+							<ol class="breadcrumb ms-auto">
+								<li><a href="<c:url value = "/logout"/>"
+									class="btn btn-danger  d-none d-md-block pull-right ms-3 hidden-xs hidden-sm waves-effect waves-light text-white">Đăng
+										xuất</a>
+							</ol>
+						</div>
+					</div>
 				</div>
+
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- ============================================================== -->
@@ -116,9 +125,12 @@
 											<option value="3">Server 3</option>
 										</select> -->
 										<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-										<select class="form-select shadow-none p-0 border-0 form-control-line" name="server">
+										<select
+											class="form-select shadow-none p-0 border-0 form-control-line"
+											name="server">
 											<c:forEach items="${listserver}" var="server">
-												<option value="${server.id_server}">${server.ip_server} ( server ${server.id_server} )</option>
+												<option value="${server.id_server}">${server.ip_server}
+													( server ${server.id_server} )</option>
 											</c:forEach>
 										</select>
 									</div>

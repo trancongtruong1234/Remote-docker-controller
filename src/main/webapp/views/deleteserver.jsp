@@ -71,14 +71,19 @@
 				<div class="col-lg-8 col-xlg-9 col-md-12">
 					<div class="card">
 						<div class="card-body">
-							<form action="<c:url value="/addserver"/>" method="POST">
-								<input class="input100" type="text" size="40" name="ip_server"
-									placeholder="Nhập IP public"> <span
-									class="focus-input100" data-placeholder="&#xe82a;"></span> <br>
-								<br>
+							<form action="<c:url value="/deleteserver"/>" method="POST">
+								<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+										<select
+											class="form-select shadow-none p-0 border-0 form-control-line"
+											name="server">
+											<c:forEach items="${listserver}" var="server">
+												<option value="${server.id_server}">${server.ip_server}
+													( server ${server.id_server} )</option>
+											</c:forEach>
+										</select>
 								<div class="form-group mb-4">
 									<div class="col-sm-12">
-										<button class="btn btn-success">Thêm server</button>
+										<button class="btn btn-success">Xóa server</button>
 									</div>
 								</div>
 							</form>
