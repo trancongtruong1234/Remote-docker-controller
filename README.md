@@ -23,6 +23,7 @@
   - Khởi chạy container.
   - Tạo database trong sql server: database theo cấu trúc data của file usercloud.bacpac.
   - Import dữ liệu vào database: dữ liệu database có thể được import từ file usercloud.bacpac đính kèm.
+  ### <img src="project-cloud-main/src/main/images/database.png">
 ### Bước 3: Tải project về, thay đổi các thông tin được hướng dẫn theo comment trong file config.java trong package vn.cloud.config<p>
   - Nếu chạy trên máy local thì để đường dẫn file .pem trên máy local.
   - Nếu deloy trên ec 2 thì đổi đường dẫn file .pem trên máy ec2, sau đó build thành file .war.
