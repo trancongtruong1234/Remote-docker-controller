@@ -38,4 +38,14 @@
   - Tài khoản admin: admin, 123123.
   - Thực hiện đăng kí để tạo tài khoản user.
   - Một số hình ảnh của giao diện.
+  #### Đăng nhập
+  ### <img src="src/main/images/dangnhap.png">
+  #### Đăng ký
+  ### <img src="src/main/images/dangky.png">
+  #### Tạo container
+  ### <img src="src/main/images/taocontainer.png">
+  #### Thêm server
+  ### <img src="src/main/images/themserver.png">
+  #### Xóa server
+  ### <img src="src/main/images/xoaserver.png">
     
