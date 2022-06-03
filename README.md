@@ -14,10 +14,12 @@
 - Khi người dùng tạo container có thể lựa chọn server, chọn dung lượng ram, số cpu, ...
 ## Các bước cài đặt 
 
-### Bước 1: Tạo máy ubuntu (cloud9) trên aws, trong đó 1 máy lưu database(bắt buộc) đồng thời làm server, các máy còn lại làm server ( số lượng tùy thích)</p>
+### Bước 1: Tạo máy ubuntu (cloud9) trên aws, trong đó 1 máy lưu database (bắt buộc) đồng thời làm server, các máy còn lại làm server ( số lượng tùy thích)</p>
   - Trên mỗi máy ubuntu thực hiện lệnh: docker pull sonvo123/os:centos và sonvo123/os:ubuntu ( để thực hiện chức năng tạo container).
   - Nên gán ip cho các máy là elastic ip cho dễ sử dụng. Nếu để private ip thì làm  cho các máy thông nhau.
+  - Thông tin các ip được cấu hình trong file config (cần thay đổi cho đúng với EC2 đã tạo).
   - Các máy ubuntu phải dùng chung 1 file .pem.
+  ### <img src="src/main/images/config.png">
 ### Bước 2: Ở một máy Ubuntu vừa tạo, tạo container Sql server để import data. Mỗi lần chạy thì khởi động container sql server lên.</p>
   - Tạo container sql Server.
   - Khởi chạy container.
@@ -31,7 +33,9 @@
     1. Tạo thư mục ( tên bất kì trên máy ec2).
     2. Tải file .pem vào thư mục, file .war, và tạo dockerfile.
     3. Cấu hình nội dung dockerfile để deloy: Lưu ý project này chạy trên tomcat 9.
+  ### <img src="src/main/images/dockerfile.png">
 ### Bước 4: Đăng nhập và kiểm tra chức năng
   - Tài khoản admin: admin, 123123.
   - Thực hiện đăng kí để tạo tài khoản user.
+  - Một số hình ảnh của giao diện.
     
