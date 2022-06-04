@@ -6,6 +6,7 @@ encoding//src/main/java/vn/cloud/controller/ConnectController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/CreateController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/CreateFromImageController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/CreateImageController.java=UTF-8
+encoding//src/main/java/vn/cloud/controller/DeleteServerController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/HomeController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/ImageController.java=UTF-8
 encoding//src/main/java/vn/cloud/controller/LoginController.java=UTF-8

@@ -39,6 +39,7 @@ public class DeleteServerController extends HttpServlet {
 		System.out.println(id_server);
 		hd.deleteServer(id_server);
 		
+		//cập nhật lại session
 		ArrayList<ServerModel> listserver = new ArrayList<ServerModel>();
 		try {
 			HomeDao homeDao = new HomeDao();
